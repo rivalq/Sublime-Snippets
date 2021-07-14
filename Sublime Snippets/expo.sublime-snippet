@@ -1,0 +1,19 @@
+<snippet>
+  <content><![CDATA[
+int xymodp(int x,int y,int p){
+    int a=1;
+    x%=p;
+    while(y){
+        if(y&1)a=(a*x)%p;
+        x=(x*x)%p;
+        y/=2;
+    }
+    return a;
+}
+
+]]></content>
+  <tabTrigger>expo</tabTrigger>
+  <description>expo</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

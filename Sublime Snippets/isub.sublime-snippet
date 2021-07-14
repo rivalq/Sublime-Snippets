@@ -1,0 +1,22 @@
+<snippet>
+  <content><![CDATA[
+bool isSubsequence(string s1,string s2){
+     if(s1.length()>s2.length())return false;
+     int i=0,j=0,n1=s1.length(),n2=s2.length();
+     while(i<n1 && j<n2){
+         if(s1[i]==s2[j]){
+             i++;
+             j++;
+         }
+         else{
+             j++;
+         }
+     }
+     return i==n1;
+}
+]]></content>
+  <tabTrigger>isub</tabTrigger>
+  <description>isub</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

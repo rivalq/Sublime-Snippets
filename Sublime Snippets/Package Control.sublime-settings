@@ -1,0 +1,19 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"ChapelLang",
+		"Competitive Programming",
+		"Conda",
+		"CppFastOlympicCoding",
+		"Debugger",
+		"Github Color Theme",
+		"JavaScript Completions",
+		"Package Control",
+		"Python 3",
+		"sublime-github",
+	],
+}

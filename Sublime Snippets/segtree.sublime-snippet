@@ -1,0 +1,97 @@
+<snippet>
+  <content><![CDATA[
+struct node{
+    int a=0;
+    node (int val=0){
+        a=val;
+    }
+    void merge(node &n1,node &n2){
+        this->a=min(n1.a,n2.a);
+    }
+};
+struct update{
+  int val=0;
+  update(int t=0){
+     val=t;
+  }
+  void combine(update &par,int tl,int tr){
+      val=par.val;
+  }
+  void apply(node &node){
+      node.a=val;
+      val=0;
+  }
+};
+template<typename node,typename update>
+struct segtree{
+  node t[4*N];
+  bool lazy[4*N];
+  update zaker[4*N];
+  int tl[4*N];
+  int tr[4*N];
+  node nul;
+  inline void pushdown(int v){
+     if(lazy[v]){    
+       apply(zaker[v],v);
+       lazy[v]=0;
+       zaker[v].apply(t[v]);
+     }
+  }
+  inline void apply(update &u,int v){
+      if(tl[v]!=tr[v]){
+          lazy[2*v]=lazy[2*v+1]=1;
+          zaker[2*v].combine(u,tl[2*v],tr[2*v]);
+          zaker[2*v+1].combine(u,tl[2*v+1],tr[2*v+1]);
+      }
+  }
+  void build(int v,int start,int end,int arr[]){
+      tl[v]=start;
+      tr[v]=end;
+      if(start==end){
+          t[v].a=arr[start];
+      }
+      else{
+          int m=(start+end)/2;
+          build(2*v,start,m,arr);
+          build(2*v+1,m+1,end,arr);
+          t[v].merge(t[2*v],t[2*v+1]);
+     }
+  }
+  void zeno(int v,int l,int r,update val){
+      pushdown(v);
+      if(tr[v]<l || tl[v]>r)return;
+      if(l<=tl[v] && tr[v]<=r){
+            t[v].a=val.val;
+            apply(val,v); 
+            return;
+      }
+      zeno(2*v,l,r,val);
+      zeno(2*v+1,l,r,val);
+      t[v].merge(t[2*v],t[2*v+1]);
+  }
+  node query(int v,int l,int r){
+      if(tr[v]<l || tl[v]>r)return nul;
+      pushdown(v);
+      if(l<=tl[v] && tr[v]<=r){
+         return t[v];
+      }
+      node a=query(2*v,l,r);
+      node b=query(2*v+1,l,r);
+      node ans;
+      ans.merge(a,b);
+      return ans;
+  }
+public:
+  node query(int l,int r){
+      return query(1,l,r);
+  }
+  void upd(int l,int r,update val){
+      return zeno(1,l,r,val);
+  }   
+};
+]]></content>
+  <tabTrigger>segtree</tabTrigger>
+  <description>segtree</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
