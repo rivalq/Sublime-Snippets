@@ -1,0 +1,67 @@
+<snippet>
+  <content><![CDATA[
+struct ODT{
+	int n;
+	map<pii,int>st;  //range [L,R] with same value;
+	// splits range [L,R] to [L,x) and [x,R]
+	// returns iterator to [x,R]
+	ODT(int n):n(n){
+		st.insert({{1,n},0});
+	}
+	auto split(int x){
+		if(x>n)return st.end();
+		auto it=st.upper_bound({x,0});
+		if(it==st.end())it--;
+		if(it->x.x>x)it--;
+		if(it->x.x==x)return it;
+		int l=it->x.x;
+		int r=it->x.y;
+		int v=it->y;
+		st.erase(it);
+		st.insert({{l,x-1},v});
+		return st.insert({{x,r},v}).x;
+	}
+	void assign(int l,int r,int val){
+		auto itr=split(r+1);
+		auto itl=split(l);
+		st.erase(itl,itr);
+		st.insert({{l,r},val});
+	}
+	void radd(int l,int r,int x){
+		auto itr=split(r+1),itl=split(l);
+		for(;itl!=itr;itl++){
+			itl->y+=x;
+		}
+	}
+	int kth(int l,int r,int k){
+		vector<pii>vec;
+		auto itr=split(r+1),itl=split(l);
+		for(;itl!=itr;itl++){
+			vec.pb({itl->y,itl->x.y-itl->x.x+1});
+		}
+		sort(vec.begin(),vec.end());
+		for(auto i:vec){
+			if(i.y>=k)return i.x;
+			k-=i.y;
+		}
+		return 0;
+	}
+	int query(int l,int r,int x,int y){
+		auto itr=split(r+1),itl=split(l);
+		int ans=0;
+		for(;itl!=itr;itl++){
+			int val=expo(itl->y,x,y);
+			val=val*(itl->x.y-itl->x.x+1);
+			ans=(ans+val)%y;
+		}
+		if(ans<0)ans+=y;
+		return ans;
+	}
+
+};
+]]></content>
+  <tabTrigger>odt</tabTrigger>
+  <description>odt</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

@@ -1,0 +1,26 @@
+<snippet>
+  <content><![CDATA[
+#define SIEVE
+
+const int N = 1000050;
+
+int lp[N+1];
+int pr[N];int t=0;
+
+void sieve(){
+    for (int i=2; i<N; ++i) {
+            if (lp[i] == 0) {
+                lp[i] = i;
+                pr[t++]=i;
+            }
+        for (int j=0; j<t && pr[j]<=lp[i] && i*pr[j]<N; ++j)
+            lp[i * pr[j]] = pr[j];
+    }
+}
+
+]]></content>
+  <tabTrigger>sieve</tabTrigger>
+  <description>sieve</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

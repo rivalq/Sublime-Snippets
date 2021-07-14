@@ -1,0 +1,25 @@
+<snippet>
+	<content><![CDATA[
+/***********************TO generate Bitmasks of length N ******************/
+vector<string> bitm;
+void BITMASKING(string vis,int j){
+      
+      if(j==n)return;
+      string s1=vis;
+      s1[j]='1';
+      if(j==n-1){
+          bitm.pb(s1);
+          bitm.pb(vis);
+          return ;
+      }
+      else{
+      dfs(vis,j+1);
+      dfs(s1,j+1);
+      }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bitstr</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

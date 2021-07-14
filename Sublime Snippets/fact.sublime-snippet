@@ -1,0 +1,32 @@
+<snippet>
+  <content><![CDATA[
+#define NCR
+const int MAXN=200005;
+int fact[MAXN],inv[MAXN];
+int xymodp(int x,int y,int p){
+    int a=1;
+    x%=p;
+    while(y){
+        if(y&1)a=(a*x)%p;
+        x=(x*x)%p;
+        y/=2;
+    }
+    return a;
+}
+void init(int MAXN=100000){
+    fact[0]=1;
+    rep(i,1,MAXN)fact[i]=(i*fact[i-1])%hell;
+    rep(i,1,MAXN)inv[i]=xymodp(fact[i],hell-2,hell);
+    inv[0]=1;inv[1]=1;
+}
+int ncr(int n,int r){
+    if(n<r)return 0;
+    if(r<0)return 0;
+    return fact[n]*inv[r]%hell*inv[n-r];
+}
+]]></content>
+  <tabTrigger></tabTrigger>
+  <description>fact</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

@@ -1,0 +1,85 @@
+<snippet>
+  <content><![CDATA[
+
+
+template<typename T>
+class digraph{
+
+public:
+
+	vector<vector<T>>g,gt,cond;
+	vector<T>order;
+	vector<T>comp;
+	int n;
+	digraph(int n):n(n){
+		g.resize(n+1),gt.resize(n+1);
+		comp.resize(n+1);
+	}
+	void addEdge(int u,int v){
+		g[u].push_back(v);
+		gt[v].push_back(u);
+	}
+	bool topo_sort(){
+		vector<int> used(n+1);
+		bool dag = 1;
+		function<void(int)>dfs=[&](int u){
+			used[u] = 1;
+			for(auto i:g[u]){
+				if(used[i]==1){
+					dag = 0;
+				}
+				else if(used[i]==0){
+					dfs(i);
+				}
+			}
+			used[u] = 2;
+			order.push_back(u);
+		};
+		for(int i=1;i<=n;i++){
+			if(used[i]==0)dfs(i);
+		}
+		return dag;
+	}
+	int scc(){
+		topo_sort();
+		vector<int>used(n+1);
+		int ptr = 0;
+		function<void(int)>dfs=[&](int u){
+			comp[u]=ptr;
+			used[u]=1;
+			for(auto i:gt[u]){
+				if(!used[i]){
+					dfs(i);
+				}
+			}
+		};
+		while(!order.empty()){
+			int u = order.back();order.pop_back();
+			if(used[u])continue;
+			ptr++;
+			dfs(u);
+		}
+		return ptr;
+	}
+	int cond_graph(){
+		int m = scc();
+		cond.resize(m+1);
+		for(int i=1;i<=n;i++){
+			for(auto j:g[i]){
+				if(comp[i]==comp[j])continue;
+				cond[comp[i]].push_back(comp[j]);	
+			}
+		}
+		return m;	
+	}
+};
+
+
+
+
+]]></content>
+  <tabTrigger>digraph</tabTrigger>
+  <description>digraph</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

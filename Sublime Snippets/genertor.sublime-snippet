@@ -1,0 +1,17 @@
+<snippet>
+  <content><![CDATA[
+int t = 0;
+int cnt = 0;
+while(t--){
+        string s = "testcases/problem.";
+        s += to_string(++cnt);
+        string t = s; t += ".out";
+        s += ".in";
+        freopen(s.c_str(),"w",stdout);
+}
+]]></content>
+  <tabTrigger>generator</tabTrigger>
+  <description>test_in</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

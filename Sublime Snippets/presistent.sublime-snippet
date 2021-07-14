@@ -1,0 +1,60 @@
+<snippet>
+  <content><![CDATA[
+//dynamic + presistent
+
+const int maxn=1e7;
+
+
+struct node{
+        int l=0,r=0;
+        int sum=0;
+}t[maxn];
+int temp=0;
+
+
+void extend(int v){
+        t[v].l=++temp;
+        t[temp].sum=1;
+        t[v].r=++temp;
+        t[temp].sum=1;
+}
+void build(int v,int tl,int tr){
+        t[v].sum=1;
+        if(tl==tr){
+               return; 
+        }
+        int mid=(tl+tr)/2;
+        extend(v);
+        build(t[v].l,tl,mid);
+        build(t[v].r,mid+1,tr);
+}
+void update(int v,int tl,int tr,int j,int val){	
+        if(tl==tr){
+                t[v].sum=val;return;
+        }
+        int mid=(tl+tr)/2;
+        if(j<=mid){
+                int old_l=t[v].l;int new_l=++temp;
+                t[new_l]=t[old_l];t[v].l=new_l;
+                update(t[v].l,tl,mid,j,val);
+        }
+        else{
+            int old_r=t[v].r;int new_r=++temp;
+            t[new_r]=t[old_r];t[v].r=new_r;
+            update(t[v].r,mid+1,tr,j,val);
+        }
+        t[v].sum=t[t[v].l].sum+t[t[v].r].sum;
+}
+int query(int v,int l,int r,int tl,int tr){
+        if(tl>r || l>tr || v==0)return 0;
+        if(l<=tl && tr<=r)return t[v].sum;
+        int mid=(tl+tr)/2;
+        return query(t[v].l,l,r,tl,mid)+query(t[v].r,l,r,mid+1,tr); 
+}
+
+]]></content>
+  <tabTrigger>presistent-seg</tabTrigger>
+  <description>presistent</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

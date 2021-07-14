@@ -1,0 +1,41 @@
+<snippet>
+  <content><![CDATA[
+const int maxn=200005;
+int ctree[maxn]=200005;
+/**** CENTROID DECOMPOSITION****/
+void dfs1(int u,int par){
+	 sz[u]=1;
+	 temp++;
+	 for(auto i:g[u]){
+	 	if(i!=par){
+            dfs1(i,u);
+            sz[u]+=sz[i];
+	 	}
+	 }
+}
+int dfs2(int u,int par){
+	 for(auto i:g[u]){
+	 	if(i!=par && sz[i]>temp/2){
+             return dfs2(i,u);
+	 	}
+	 }
+	 return u;
+}
+void decompose(int u,int par){
+   temp=0;
+   dfs1(u,u);
+   int centroid=dfs2(u,u);
+   if(par==-1)par=u;
+   ctree[u]=par;
+   for(auto i:g[centroid]){
+   	  g[i].erase(centroid);
+   	  decompose(i,centroid);
+   } 
+   g[centroid].clear();
+}
+]]></content>
+  <tabTrigger>ctree</tabTrigger>
+  <description>centorid</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

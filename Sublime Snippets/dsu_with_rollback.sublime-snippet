@@ -1,0 +1,95 @@
+<snippet>
+  <content><![CDATA[
+//dsu with roll backs
+struct dsu_save{
+       int u,v,rnku,rnkv;
+       dsu_save(){}
+       dsu_save(int v,int u,int rnku,int rnkv):v(v),u(u),rnku(rnku),rnkv(rnkv){}
+};
+struct dsu_with_rollbacks{
+       vector<int>p,rank;
+       int cnt=0;
+       stack<dsu_save>stk;
+       dsu_with_rollbacks(){}
+       dsu_with_rollbacks(int n){
+       	   p.resize(n+1);rank.resize(n+1);
+       	   for(int i=1;i<=n;i++)p[i]=i,rank[i]=0;
+       	   cnt=n;
+       }
+       int root(int x){
+       	  return (p[x]==x)?x:root(p[x]);
+       } 
+       bool merge(int x,int y){
+       	    int px=root(x);
+       	    int py=root(y);
+       	    if(px==py)return 0;
+       	    cnt--;
+       	    if(rank[py]>rank[px])swap(px,py);
+       	    stk.push(dsu_save(px,py,rank[py],rank[px]));
+       	    p[py]=px;
+       	    if(rank[py]==rank[px])rank[px]++;
+       	    return 1;
+       }
+       void roll_back(){
+       	    if(stk.empty())return;
+       	    dsu_save dsu=stk.top();stk.pop();
+       	    cnt++;
+       	    p[dsu.u]=dsu.u;
+       	    p[dsu.v]=dsu.v;
+       	    rank[dsu.u]=dsu.rnku;
+       	    rank[dsu.v]=dsu.rnkv;
+       }
+};
+struct query{
+      int v,u;
+      bool united;	
+      query(){}
+      query(int u,int v):u(u),v(v){}
+};
+struct Query_Tree{
+      vector<vector<query>>t;
+      dsu_with_rollbacks dsu;
+      int T;
+      Query_Tree(){}
+      Query_Tree(int __T,int __n):T(__T+1){
+           dsu=dsu_with_rollbacks(__n);
+           t.resize(4*T+10);
+      }   
+      void add(int v,int tl,int tr,int l,int r,query& q){
+      	   if(tl>r || l>tr)return;
+      	   if(l<=tl && tr<=r){
+      	   	t[v].pb(q);return;
+      	   }
+      	   int mid=(tl+tr)/2;
+      	   add(2*v,tl,mid,l,r,q);
+      	   add(2*v+1,mid+1,tr,l,r,q);
+      }
+      void add(int l,int r,query& q){
+      	   add(1,1,T,l,r,q);
+      }
+      void dfs(int v,int tl,int tr,vector<int>&ans){
+           for(query&q:t[v]){
+           	q.united=dsu.merge(q.v,q.u);
+           }
+           if(tl==tr)ans[tl]=dsu.cnt;
+           else{
+           	int mid=(tl+tr)/2;
+           	dfs(2*v,tl,mid,ans);
+           	dfs(2*v+1,mid+1,tr,ans);
+           } 
+           for(query&q:t[v]){
+               if(q.united){
+               	  dsu.roll_back();
+               }
+           }
+      }
+      void dfs(vector<int>&ans){
+      	   dfs(1,1,T,ans); 
+      }
+}qt;
+]]></content>
+  <tabTrigger>dsu_rollback</tabTrigger>
+  <description>dsu_with_rollback</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

@@ -1,0 +1,13 @@
+{
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
+	"font_size": 20,
+	"gni_001": false,
+	"gni_002": false,
+	"gni_003": false,
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"tab_size": 8,
+	"theme": "Default.sublime-theme",
+}

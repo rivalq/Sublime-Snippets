@@ -1,0 +1,13 @@
+<snippet>
+  <content><![CDATA[
+bool ispalindrome(string s){
+    string t=s;
+    reverse(all(s));
+    return t==s;
+}
+]]></content>
+  <tabTrigger>ispalindrome</tabTrigger>
+  <description>ispalindrome</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

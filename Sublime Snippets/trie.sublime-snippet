@@ -1,0 +1,50 @@
+<snippet>
+  <content><![CDATA[
+struct node{
+   node* sons[2];
+   int cnt=0;
+};
+node* create(){
+       node* temp=new node();
+       temp->sons[0]=NULL;
+       temp->sons[1]=NULL;
+       temp->cnt=0;
+       return temp;
+} 
+template<typename node>
+struct trie{
+   node* root=new node();
+   void insert(int p){
+       node* temp=root;
+       for(int j=30;j>=0;j--){
+           temp->cnt++;
+           int k=(((1LL<<j)&p)!=0);
+           if(temp->sons[k]==NULL){
+               temp->sons[k]=create();
+               temp=temp->sons[k];
+           }
+           else{
+               temp=temp->sons[k];
+           } 
+       }
+       temp->cnt++;
+   }
+   void erase(int p){
+       node* temp=root;
+       for(int j=30;j>=0;j--){
+           temp->cnt--;
+           if(p&(1<<j))temp=temp->sons[1];
+           else temp=temp->sons[0];
+       }
+       temp->cnt--;
+   }
+   int query(){
+      // function of query
+   }
+};
+]]></content>
+  <tabTrigger>trie</tabTrigger>
+  <description>trie</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

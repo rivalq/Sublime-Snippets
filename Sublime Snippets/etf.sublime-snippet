@@ -1,0 +1,19 @@
+<snippet>
+  <content><![CDATA[
+int etf(int n){
+    int a=n;
+    for(int i=2;i<=sqrt(n);i++){
+        if(n%i==0){
+            a-=a/i;
+            while(n%i==0)n/=i;
+        }
+    }
+    if(n>1)a-=a/n;
+    return a;
+}
+]]></content>
+  <tabTrigger>etf</tabTrigger>
+  <description>etf</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

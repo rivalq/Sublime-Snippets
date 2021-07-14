@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+ll xymodp(ll x,ll y,ll p){
+    ll a=1;
+    x%=p;
+    while(y){
+        if(y&1)a=(a*x)%p;
+        x=(x*x)%p;
+        y/=2;
+    }
+    return a;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>xymodp</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

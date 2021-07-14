@@ -1,0 +1,33 @@
+<snippet>
+  <content><![CDATA[
+typedef unsigned long long ull;
+struct HASH{
+   int *hash1;
+   int *hash2;
+   int base1,base2; 
+   int  hell1,hell2;
+   int gen_base(const int before, const int after) {
+    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    std::mt19937 mt_rand(seed ^ ull(new ull));
+    int base = std::uniform_int_distribution<int>(before+1, after)(mt_rand);
+    return base % 2 == 0 ? base-1 : base;
+   }
+    HASH(int n){
+       hash1=new int[n+10];
+       hash2=new int[n+10];
+       base1=gen_base(2000,4000);
+       base2=gen_base(3000,6000);
+       hell1=gen_base(hell,2147483647);
+       hell2=gen_base(hell,2147483647); 
+       hash1[0]=hash2[0]=1;
+       rep(i,1,n+10) hash1[i]=hash1[i-1]*base1%hell1;
+       rep(i,1,n+10) hash2[i]=hash2[i-1]*base2%hell2;
+   }
+   
+}hash(1000000);
+]]></content>
+  <tabTrigger>hash</tabTrigger>
+  <description>hash</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

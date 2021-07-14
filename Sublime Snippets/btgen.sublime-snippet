@@ -1,0 +1,37 @@
+<snippet>
+  <content><![CDATA[
+int root;
+             vector<int>a;
+             vector<vector<int>>childs;
+             function<void(int)>bt = [&] (int n){
+                    const int M = 1e9;
+                    a.clear();
+                    childs.clear();
+                    a.resize(n+1);
+                    childs.resize(n+1);
+                    rep(i,1,n+1){
+                            a[i] = rng()%M;
+                    }
+                    vector<int>ord(n+1);
+                    iota(all(ord),0);
+                    shuffle(ord.begin()+1,ord.end(),rng);
+                    int t = 0;
+                    function<int(int)> dfs = [&](int n){
+                        if(n == 0){
+                            return -1LL;
+                        }
+                        t++;
+                        int u = ord[t];
+                        int l = rng()%n;
+                        childs[u].push_back(dfs(l));
+                        childs[u].push_back(dfs(n-1-l));
+                        return u;
+                    };
+                    root = dfs(n);
+             };
+]]></content>
+  <tabTrigger>bt-gen</tabTrigger>
+  <description>bt_gen</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>

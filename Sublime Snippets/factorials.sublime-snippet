@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+ll fact[n+1],infact[n+1];
+fact[0]=1;
+rep(i,n+1,1)fact[i]=i*fact[i-1];
+rep(i,n+1,1)infact[i]=xymodp(fact[i],hell-2,hell)
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>factorials</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

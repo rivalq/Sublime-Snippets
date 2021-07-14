@@ -1,0 +1,60 @@
+<snippet>
+  <content><![CDATA[
+const int N=1e9+5;
+const int M=1e7;
+
+
+
+struct node{	
+	int l;int r;
+	int val;
+}t[M];
+int cnt=0;
+
+int n;
+
+void extend(int v){
+	if(t[v].l==0){
+		t[v].l=++cnt;
+		t[v].r=++cnt;
+	}
+}
+
+void pushdown(int v,int tl,int tr,int val){
+	if(tl!=tr){
+		extend(v);
+		maxs(t[t[v].l].val,val);
+		maxs(t[t[v].r].val,val);
+	}
+}	
+
+void update(int v,int l,int r,int val,int tl=1,int tr=n){
+	if(tl>r || l>tr)return;
+	if(l<=tl && tr<=r){
+		maxs(t[v].val,val);
+		return;
+	}
+	extend(v);
+	int mid=(tl+tr)/2;
+	update(t[v].l,l,r,val,tl,mid);
+	update(t[v].r,l,r,val,mid+1,tr);
+}
+
+void query(int v,int i,int &mx,int tl=1,int tr=n){
+	if(tl==tr){
+		maxs(mx,t[v].val);
+		return;
+	}
+	maxs(mx,t[v].val);
+	int mid=(tl+tr)/2;
+	extend(v);
+	if(i<=mid)query(t[v].l,i,mx,tl,mid);
+	else query(t[v].r,i,mx,mid+1,tr);
+}
+
+]]></content>
+  <tabTrigger>dynamic</tabTrigger>
+  <description>dynamic</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
